@@ -103,6 +103,75 @@ let nextMatrix = function(matrix, turn, row, col) {
   return next;
 }
 
+let score = function(matrix, turn) {
+  let turn_num = 0;
+  let opp_num = 0;
+  const opp = oppTurn(turn);
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      switch (matrix[row][col]) {
+        case turn: turn_num++; break;
+        case opp: opp_num++; break;
+      }
+    }
+  }
+  if (turn_num > opp_num) {
+    return 64 - 2*opp_num;
+  } else if (opp_num > turn_num) {
+    return -64 + 2*turn_num;
+  } else {
+    return 0;
+  }
+}
+
+let think_impl = function(matrix, turn, alpha, beta, passed, depth) {
+  if (depth <= 0) {
+    return [score(matrix, turn), -1, -1];
+  }
+  const opp = oppTurn(turn);
+  let pass = true;
+  let max = -1e9;
+  let maxrow = 0;
+  let maxcol = 0;
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      if (movable_pos(matrix, turn, row, col)) {
+        pass = false;
+        const next = nextMatrix(matrix, turn, row, col);
+        const val = -think_impl(next, opp, -beta, -alpha, false, depth-1)[0];
+        if (val > max) {
+          max = val;
+          maxrow = row;
+          maxcol = col;
+          if (val > alpha) {
+            alpha = val;
+            if (val >= beta) {
+              return [val, row, col];
+            }
+          }
+        }
+      }
+    }
+  }
+  if (pass) {
+    if (passed) {
+      return [score(matrix, turn)[0], -1, -1];
+    } else {
+      return [-think_impl(matrix, opp, -beta, -alpha, true, depth-1)[0], -1, -1];
+    }
+  } else {
+    return [max, maxrow, maxcol];
+  }
+}
+
+let think = function(matrix, turn) {
+  const res = think_impl(matrix, turn, -64, 64, false, 5);
+  return [res[1], res[2]];
+}
+
+const Single = 0;
+const Double = 1;
+
 let vm = new Vue({
   el: "#game",
   data: {
@@ -116,7 +185,10 @@ let vm = new Vue({
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0]
     ],
-    turn: Black
+    turn: Black,
+    prevrow: -1,
+    prevcol: -1,
+    mode: Single
   },
   computed: {
     blackcount: function() {
@@ -183,7 +255,27 @@ let vm = new Vue({
     }
   },
   methods: {
-    reset: function() {
+    singleMode: function(turn) {
+      this.matrix = [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 2, 1, 0, 0, 0],
+        [0, 0, 0, 1, 2, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
+      ];
+      this.turn = turn;
+      if (turn == White) {
+        this.matrix[3][2] = Black;
+        this.matrix[3][3] = Black;
+        this.prevrow = 3;
+        this.prevcol = 2;
+      }
+      this.mode = Single;
+    },
+    doubleMode: function() {
       this.matrix = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -195,6 +287,7 @@ let vm = new Vue({
         [0, 0, 0, 0, 0, 0, 0, 0]
       ];
       this.turn = Black;
+      this.mode = Double;
     },
     pass: function() {
       let flipped = movable(this.matrix, this.turn);
@@ -202,6 +295,15 @@ let vm = new Vue({
         alert("今はパスできません");
       } else {
         this.turn = oppTurn(this.turn);
+        if (this.mode == Single) {
+          let [thinked_row, thinked_col] = think(this.matrix, this.turn);
+          if (thinked_row >= 0 && thinked_col >= 0) {
+            this.matrix = nextMatrix(this.matrix, this.turn, thinked_row, thinked_col);
+          }
+          this.turn = oppTurn(this.turn);
+          this.prevrow = thinked_row;
+          this.prevcol = thinked_col;
+        }
       }
     },
     put: function(row, col) {
@@ -219,6 +321,15 @@ let vm = new Vue({
       } else {
         this.matrix = nextMatrix(this.matrix, this.turn, row, col);
         this.turn = oppTurn(this.turn);
+        if (this.mode == Single) {
+          let [thinked_row, thinked_col] = think(this.matrix, this.turn);
+          if (thinked_row >= 0 && thinked_col >= 0) {
+            this.matrix = nextMatrix(this.matrix, this.turn, thinked_row, thinked_col);
+          }
+          this.turn = oppTurn(this.turn);
+          this.prevrow = thinked_row;
+          this.prevcol = thinked_col;
+        }
       }
     }
   }

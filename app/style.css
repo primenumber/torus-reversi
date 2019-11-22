@@ -15,6 +15,12 @@
   background-color: white;
 }
 
+.prevpos {
+  border-width: 2px;
+  border-style: dotted;
+  border-color: red;
+}
+
 .candidate {
   width: 26px;
   height: 26px;

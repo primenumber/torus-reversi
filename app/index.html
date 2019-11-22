@@ -16,7 +16,9 @@
         <table border=1 class="board" v-for="index in 4" v-bind:id='"board"+index'>
           <tr v-for="(line,row) in matrix">
             <td v-for="(square,col) in line" class="square" v-on:click="put(row,col)">
-              <div v-if="matrix[row][col] === 1" class="circle black"></div>
+              <div v-if="row === prevrow && col === prevcol && matrix[row][col] === 1" class="circle black prevpos"></div>
+              <div v-else-if="matrix[row][col] === 1" class="circle black"></div>
+              <div v-else-if="row === prevrow && col === prevcol && matrix[row][col] === 2" class="circle white prevpos"></div>
               <div v-else-if="matrix[row][col] === 2" class="circle white"></div>
               <div v-else-if="ok[row][col]" class="circle candidate"></div>
             </td>
@@ -24,7 +26,9 @@
         </table>
       </div>
       <button v-on:click="pass()">パス</button>
-      <button v-on:click="reset()">最初から</button>
+      <button v-on:click="singleMode(1)">一人モード 黒番から</button>
+      <button v-on:click="singleMode(2)">一人モード 白番から</button>
+      <button v-on:click="doubleMode()">二人モード</button>
       <p v-if="gameover">ゲーム終了 {{ blackcount }} : {{ whitecount }} で {{ winner }} </p>
       <p v-else>次は{{ turnstring }}番です</p>
     </div>
