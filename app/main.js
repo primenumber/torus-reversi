@@ -1,6 +1,7 @@
 const Empty = 0;
 const Black = 1;
 const White = 2;
+
 let mod = function(x, m) {
   if (x < 0) {
     const mxm = -x % m;
