@@ -16,9 +16,9 @@
         <table border=1 class="board" v-for="index in 4" v-bind:id='"board"+index'>
           <tr v-for="(line,row) in matrix">
             <td v-for="(square,col) in line" class="square" v-on:click="put(row,col)">
-              <div v-if="matrix[row][col] === 1" class="black"></div>
-              <div v-else-if="matrix[row][col] === 2" class="white"></div>
-              <div v-else-if="ok[row][col]" class="candidate"></div>
+              <div v-if="matrix[row][col] === 1" class="circle black"></div>
+              <div v-else-if="matrix[row][col] === 2" class="circle white"></div>
+              <div v-else-if="ok[row][col]" class="circle candidate"></div>
             </td>
           </tr>
         </table>
