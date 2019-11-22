@@ -130,6 +130,13 @@ let vm = new Vue({
     },
     gameover: function() {
       return isGameOver(this.matrix);
+    },
+    turnstring: function() {
+      switch (this.turn) {
+        case Black: return "黒";
+        case White: return "白";
+        default: return "";
+      }
     }
   },
   methods: {

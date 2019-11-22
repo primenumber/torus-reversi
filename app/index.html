@@ -26,6 +26,7 @@
       <button v-on:click="pass()">パス</button>
       <button v-on:click="reset()">最初から</button>
       <p v-if="gameover">ゲーム終了 {{ blackcount }} : {{ whitecount }} で {{ winner }} </p>
+      <p v-else>次は{{ turnstring }}番です</p>
     </div>
     <dl>
       <dt>作者</dt><dd>そすうぽよ(prime)</dd>
