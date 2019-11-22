@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>トーラスリバーシ</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <h1>トーラスリバーシ</h1>
+    <h2>ルール</h2>
+    <p>ゲームの盤面の左右、上下がそれぞれ接続されているリバーシ（オセロ）の亜種ゲームです。<br>
+    見やすさのため盤面を4個コピーして表示しています。<br>
+    ゲーム終了時の石数はオセロ公式ルールに基づき、空きマスの数を勝者の石数に入れています。</p>
+    <div id="game">
+      <div id="board3x3">
+        <table border=1 class="board" v-for="index in 4" v-bind:id='"board"+index'>
+          <tr v-for="(line,row) in matrix">
+            <td v-for="(square,col) in line" class="square" v-on:click="put(row,col)">
+              <div v-if="matrix[row][col] === 1" class="black"></div>
+              <div v-else-if="matrix[row][col] === 2" class="white"></div>
+              <div v-else-if="ok[row][col]" class="candidate"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <button v-on:click="pass()">パス</button>
+      <button v-on:click="reset()">最初から</button>
+      <p v-if="gameover">ゲーム終了 {{ blackcount }} : {{ whitecount }} で {{ winner }} </p>
+    </div>
+    <dl>
+      <dt>作者</dt><dd>そすうぽよ(prime)</dd>
+      <dt>リポジトリ</dt><dd><a href="https://github.com/primenumber/torus-reversi">GitHub primenumber/torus-reversi</a></dd>
+    </dl>
+    <script src="main.js"></script>
+  </body>
+</html>
