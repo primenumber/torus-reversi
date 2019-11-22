@@ -2,6 +2,10 @@ const Empty = 0;
 const Black = 1;
 const White = 2;
 
+let oppTurn = function(turn) {
+  return 3 - turn;
+}
+
 let mod = function(x, m) {
   if (x < 0) {
     const mxm = -x % m;
@@ -59,6 +63,44 @@ let movable = function(matrix, turn) {
 
 let isGameOver = function(matrix) {
   return !movable(matrix, Black) && !movable(matrix, White);
+}
+
+let copyMatrix = function(matrix) {
+  return Array.from(matrix, row => Array.from(row, x => x));
+}
+
+let nextMatrix = function(matrix, turn, row, col) {
+  let next = copyMatrix(matrix);
+  next[row][col] = turn;
+  const di = [1, 1, 1, 0, -1, -1, -1, 0];
+  const dj = [1, 0, -1, -1, -1, 0, 1, 1];
+  let flipped = false;
+  for (let dir = 0; dir < 8; dir++) {
+    for (let k = 1; k <= 8; ++k) {
+      const ni = mod(row + di[dir] * k, 8);
+      const nj = mod(col + dj[dir] * k, 8);
+      let finished = false;
+      switch (next[ni][nj]) {
+        case Empty:
+          finished = true;
+          break;
+        case turn:
+          for (let l = 1; l < k; ++l) {
+            const mi = mod(row + di[dir] * l, 8);
+            const mj = mod(col + dj[dir] * l, 8);
+            next[mi][mj] = turn;
+            flipped = true;
+          }
+          finished = true;
+          break;
+        default: break;
+      }
+      if (finished) {
+        break;
+      }
+    }
+  }
+  return next;
 }
 
 let vm = new Vue({
@@ -159,7 +201,7 @@ let vm = new Vue({
       if (flipped) {
         alert("今はパスできません");
       } else {
-        this.turn = 3 - this.turn;
+        this.turn = oppTurn(this.turn);
       }
     },
     put: function(row, col) {
@@ -172,40 +214,11 @@ let vm = new Vue({
         alert("ここには置けません");
         return;
       }
-      Vue.set(this.matrix[row], col, this.turn);
-      const di = [1, 1, 1, 0, -1, -1, -1, 0];
-      const dj = [1, 0, -1, -1, -1, 0, 1, 1];
-      let flipped = false;
-      for (let dir = 0; dir < 8; dir++) {
-        for (let k = 1; k <= 8; ++k) {
-          const ni = mod(row + di[dir] * k, 8);
-          const nj = mod(col + dj[dir] * k, 8);
-          let finished = false;
-          switch (this.matrix[ni][nj]) {
-            case Empty:
-              finished = true;
-              break;
-            case this.turn:
-              for (let l = 1; l < k; ++l) {
-                const mi = mod(row + di[dir] * l, 8);
-                const mj = mod(col + dj[dir] * l, 8);
-                Vue.set(this.matrix[mi], mj, this.turn);
-                flipped = true;
-              }
-              finished = true;
-              break;
-            default: break;
-          }
-          if (finished) {
-            break;
-          }
-        }
-      }
-      if (!flipped) {
-        Vue.set(this.matrix[row], col, Empty);
+      if (!movable_pos(this.matrix, this.turn, row, col)) {
         alert("ここには置けません");
       } else {
-        this.turn = 3 - this.turn;
+        this.matrix = nextMatrix(this.matrix, this.turn, row, col);
+        this.turn = oppTurn(this.turn);
       }
     }
   }
