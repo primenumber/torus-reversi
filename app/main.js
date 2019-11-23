@@ -29,7 +29,7 @@ let think_impl = function(matrix, turn, alpha, beta, passed, depth) {
   }
   if (pass) {
     if (passed) {
-      return [score(matrix, turn)[0], -1, -1];
+      return [score(matrix, turn), -1, -1];
     } else {
       return [-think_impl(matrix, opp, -beta, -alpha, true, depth-1)[0], -1, -1];
     }
