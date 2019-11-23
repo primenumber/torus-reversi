@@ -49,16 +49,7 @@ const Double = 1;
 let vm = new Vue({
   el: "#game",
   data: {
-    matrix: [
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 2, 1, 0, 0, 0],
-      [0, 0, 0, 1, 2, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0]
-    ],
+    matrix: newMatrix(),
     turn: Black,
     prevrow: -1,
     prevcol: -1,
@@ -66,16 +57,8 @@ let vm = new Vue({
   },
   computed: {
     blackcount: function() {
-      let black_num = 0;
-      let white_num = 0;
-      for (let row = 0; row < 8; row++) {
-        for (let col = 0; col < 8; col++) {
-          switch (this.matrix[row][col]) {
-            case Black: black_num++; break;
-            case White: white_num++; break;
-          }
-        }
-      }
+      let black_num = count(this.matrix, Black);
+      let white_num = count(this.matrix, White);
       if (black_num > white_num) {
         return 64 - white_num;
       } else {
@@ -83,16 +66,8 @@ let vm = new Vue({
       }
     },
     whitecount: function() {
-      let black_num = 0;
-      let white_num = 0;
-      for (let row = 0; row < 8; row++) {
-        for (let col = 0; col < 8; col++) {
-          switch (this.matrix[row][col]) {
-            case Black: black_num++; break;
-            case White: white_num++; break;
-          }
-        }
-      }
+      let black_num = count(this.matrix, Black);
+      let white_num = count(this.matrix, White);
       if (white_num > black_num) {
         return 64 - black_num;
       } else {
@@ -130,16 +105,7 @@ let vm = new Vue({
   },
   methods: {
     singleMode: function(turn) {
-      this.matrix = [
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]
-      ];
+      this.matrix = newMatrix();
       this.turn = turn;
       if (turn == White) {
         this.matrix[3][2] = Black;
@@ -150,16 +116,7 @@ let vm = new Vue({
       this.mode = Single;
     },
     doubleMode: function() {
-      this.matrix = [
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0]
-      ];
+      this.matrix = newMatrix();
       this.turn = Black;
       this.mode = Double;
     },

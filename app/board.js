@@ -69,6 +69,19 @@ let copyMatrix = function(matrix) {
   return Array.from(matrix, row => Array.from(row, x => x));
 }
 
+let newMatrix = function() {
+  return [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
+  ];
+}
+
 let nextMatrix = function(matrix, turn, row, col) {
   let next = copyMatrix(matrix);
   next[row][col] = turn;
@@ -103,18 +116,21 @@ let nextMatrix = function(matrix, turn, row, col) {
   return next;
 }
 
-let score = function(matrix, turn) {
-  let turn_num = 0;
-  let opp_num = 0;
-  const opp = oppTurn(turn);
+let count = function(matrix, turn) {
+  let num = 0;
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
-      switch (matrix[row][col]) {
-        case turn: turn_num++; break;
-        case opp: opp_num++; break;
+      if (matrix[row][col] == turn) {
+        num++;
       }
     }
   }
+  return num;
+}
+
+let score = function(matrix, turn) {
+  let turn_num = count(matrix, turn);
+  let opp_num = count(matrix, oppTurn(turn));
   if (turn_num > opp_num) {
     return 64 - 2*opp_num;
   } else if (opp_num > turn_num) {
