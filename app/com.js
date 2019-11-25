@@ -41,7 +41,14 @@ let think_impl = function(matrix, turn, alpha, beta, passed, depth) {
 }
 
 let think = function(matrix, turn) {
-  const res = think_impl(matrix, turn, -64, 64, false, 6);
+  const empty_count = count(matrix, Empty);
+  let depth = 6;
+  if (empty_count <= 10) {
+    depth = 10;
+  } else if (empty_count <= 16) {
+    depth = 8;
+  }
+  const res = think_impl(matrix, turn, -64, 64, false, depth);
   return [res[1], res[2]];
 }
 
