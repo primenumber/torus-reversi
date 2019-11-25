@@ -61,6 +61,14 @@ let vm = new Vue({
     },
     singlemode: function() {
       return this.mode == SingleBlack || this.mode == SingleWhite;
+    },
+    playerturn: function() {
+      switch (this.mode) {
+        case Double: return true;
+        case SingleBlack: return this.turn == Black;
+        case SingleWhite: return this.turn == White;
+        default: return false;
+      }
     }
   },
   methods: {
@@ -86,7 +94,7 @@ let vm = new Vue({
       let flipped = movable(this.matrix, this.turn);
       if (flipped) {
         alert("今はパスできません");
-      } else {
+      } else if (this.playerturn) {
         this.turn = oppTurn(this.turn);
         if (this.singlemode) {
           this.kick();
@@ -96,6 +104,10 @@ let vm = new Vue({
     put: function(row, col) {
       if (row < 0 || row >= 8 || col < 0 || col >= 8) {
         console.log("Invalid position");
+        return;
+      }
+      if (!this.playerturn) {
+        console.log("Com turn");
         return;
       }
       const now = this.matrix[row][col];
