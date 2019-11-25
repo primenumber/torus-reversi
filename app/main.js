@@ -96,6 +96,8 @@ let vm = new Vue({
         alert("今はパスできません");
       } else if (this.playerturn) {
         this.turn = oppTurn(this.turn);
+        this.prevrow = -1;
+        this.prevcol = -1;
         if (this.singlemode) {
           this.kick();
         }
@@ -117,6 +119,8 @@ let vm = new Vue({
       if (movable_pos(this.matrix, this.turn, row, col)) {
         this.matrix = nextMatrix(this.matrix, this.turn, row, col);
         this.turn = oppTurn(this.turn);
+        this.prevrow = row;
+        this.prevcol = col;
         if (this.singlemode) {
           this.kick();
         }
