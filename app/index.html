@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>トーラスリバーシ</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
     <script src="board.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
@@ -18,7 +20,7 @@
     一人モードのコンピューターはあまり工夫しておらず、強くなる余地はかなりあると思うので、強くなるPull Requestをお待ちしております。</p>
     <div id="game">
       <div id="board3x3">
-        <table border=1 class="board" v-for="index in 4" v-bind:id='"board"+index'>
+        <table border=1 class="board" v-for="index in 4">
           <tr v-for="(line,row) in matrix">
             <td v-for="(square,col) in line" class="square" v-on:click="put(row,col)">
               <div v-if="row === prevrow && col === prevcol && matrix[row][col] === 1" class="circle black prevpos"></div>
@@ -26,6 +28,7 @@
               <div v-else-if="row === prevrow && col === prevcol && matrix[row][col] === 2" class="circle white prevpos"></div>
               <div v-else-if="matrix[row][col] === 2" class="circle white"></div>
               <div v-else-if="ok[row][col]" class="circle candidate"></div>
+              <div v-else class="circle"></div>
             </td>
           </tr>
         </table>

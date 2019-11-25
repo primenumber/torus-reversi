@@ -1,29 +1,29 @@
 .circle {
   border-radius: 50%;
-  margin: 5px auto;
+  margin: 0px auto;
+  width: 30px;
+  height: 30px;
 }
 
 .black {
-  width: 30px;
-  height: 30px;
   background-color: black;
 }
 
 .white {
-  width: 30px;
-  height: 30px;
   background-color: white;
 }
 
 .prevpos {
+  width: 29px;
+  height: 29px;
   border-width: 3px;
   border-style: dotted;
   border-color: red;
 }
 
 .candidate {
-  width: 26px;
-  height: 26px;
+  width: 29px;
+  height: 29px;
   border-width: 3px;
   border-style: dotted;
   border-color: yellow;
@@ -35,41 +35,24 @@
   border-style: solid;
   border-width: 2px;
   border-collapse: collapse;
+  width: 400px;
+  height: 400px;
 }
 
 .square {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-width: 2px;
+  padding: 0;
 }
 
 #board3x3 {
   position: relative;
   display: grid;
-  grid-auto-rows: 400px;
-  grid-auto-columns: 400px;
+  grid-template-rows: 400px 400px;
+  grid-template-columns: 400px 400px;
   width: 800px;
   height: 800px;
-}
-
-#board1 {
-  grid-row: 1;
-  grid-col: 1;
-}
-
-#board2 {
-  grid-row: 1;
-  grid-col: 2;
-}
-
-#board3 {
-  grid-row: 2;
-  grid-col: 1;
-}
-
-#board4 {
-  grid-row: 2;
-  grid-col: 2;
 }
 
 .thinking {
