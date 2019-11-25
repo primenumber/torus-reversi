@@ -29,6 +29,7 @@
             </td>
           </tr>
         </table>
+        <p class="thinking" v-if="!playerturn">思考中…</p>
       </div>
       <button v-on:click="pass()">パス</button>
       <button v-on:click="singleMode(1)">一人モード 黒番から</button>

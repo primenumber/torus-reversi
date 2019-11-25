@@ -44,9 +44,12 @@
 }
 
 #board3x3 {
+  position: relative;
   display: grid;
   grid-auto-rows: 400px;
   grid-auto-columns: 400px;
+  width: 800px;
+  height: 800px;
 }
 
 #board1 {
@@ -67,4 +70,15 @@
 #board4 {
   grid-row: 2;
   grid-col: 2;
+}
+
+.thinking {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  font-size: 600%;
+  background-color: rgba(0,0,0,.6);
+  color: white;
+  text-align: center;
+  padding: 20px 0px;
 }
