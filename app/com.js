@@ -40,19 +40,20 @@ let think_impl = function(matrix, turn, alpha, beta, passed, depth) {
   }
 }
 
-let think = function(matrix, turn) {
+let think = function(matrix, turn, level) {
+  level = Math.min(level, 2);
   const empty_count = count(matrix, Empty);
-  let depth = 6;
+  let depth = [2, 4, 6];
   if (empty_count <= 10) {
-    depth = 10;
+    depth = [4, 7, 10];
   } else if (empty_count <= 14) {
-    depth = 8;
+    depth = [3, 5, 8];
   }
-  const res = think_impl(matrix, turn, -64, 64, false, depth);
+  const res = think_impl(matrix, turn, -64, 64, false, depth[level]);
   return [res[1], res[2]];
 }
 
 onmessage = function(e) {
-  const res = think(e.data[0], e.data[1]);
+  const res = think(e.data.matrix, e.data.turn, e.data.level);
   postMessage(res);
 };

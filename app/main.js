@@ -10,7 +10,8 @@ let vm = new Vue({
     prevrow: -1,
     prevcol: -1,
     mode: SingleBlack,
-    worker: new Worker('com.js')
+    worker: new Worker('com.js'),
+    level: 0
   },
   computed: {
     blackcount: function() {
@@ -136,7 +137,11 @@ let vm = new Vue({
         this.prevrow = row;
         this.prevcol = col;
       };
-      this.worker.postMessage([this.matrix, this.turn]);
+      this.worker.postMessage({
+        matrix: this.matrix,
+        turn: this.turn,
+        level: this.level
+      });
     }
   }
 })

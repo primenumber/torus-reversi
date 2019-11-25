@@ -35,6 +35,12 @@
       <button v-on:click="singleMode(1)">一人モード 黒番から</button>
       <button v-on:click="singleMode(2)">一人モード 白番から</button>
       <button v-on:click="doubleMode()">二人モード</button>
+      <label>難易度</label>
+      <select v-model="level">
+        <option v-bind:value="0">Easy</option>
+        <option v-bind:value="1">Normal</option>
+        <option v-bind:value="2">Hard</option>
+      </select>
       <p v-if="gameover">ゲーム終了 {{ blackcount }} : {{ whitecount }} で {{ winner }} </p>
       <p v-else>次は{{ turnstring }}番です</p>
     </div>
