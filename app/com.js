@@ -45,7 +45,7 @@ let think = function(matrix, turn) {
   let depth = 6;
   if (empty_count <= 10) {
     depth = 10;
-  } else if (empty_count <= 16) {
+  } else if (empty_count <= 14) {
     depth = 8;
   }
   const res = think_impl(matrix, turn, -64, 64, false, depth);
