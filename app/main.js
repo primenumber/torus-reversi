@@ -136,3 +136,5 @@ let vm = new Vue({
     }
   }
 })
+
+vm.singleMode(White);
