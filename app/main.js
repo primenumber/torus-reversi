@@ -112,12 +112,9 @@ let vm = new Vue({
       }
       const now = this.matrix[row][col];
       if (now != Empty) {
-        alert("ここには置けません");
         return;
       }
-      if (!movable_pos(this.matrix, this.turn, row, col)) {
-        alert("ここには置けません");
-      } else {
+      if (movable_pos(this.matrix, this.turn, row, col)) {
         this.matrix = nextMatrix(this.matrix, this.turn, row, col);
         this.turn = oppTurn(this.turn);
         if (this.singlemode) {
