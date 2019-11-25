@@ -11,7 +11,8 @@ let vm = new Vue({
     prevcol: -1,
     mode: SingleBlack,
     worker: new Worker('com.js'),
-    level: 0
+    level: 0,
+    lowest_level: 2,
   },
   computed: {
     blackcount: function() {
@@ -85,6 +86,7 @@ let vm = new Vue({
       } else {
         this.mode = SingleBlack;
       }
+      this.lowest_level = this.level;
     },
     doubleMode: function() {
       this.matrix = newMatrix();
@@ -142,6 +144,43 @@ let vm = new Vue({
         turn: this.turn,
         level: this.level
       });
+    },
+    share: function() {
+      if (this.mode == Double) {
+        const url = encodeURI(`https://twitter.com/intent/tweet?text=トーラスリバーシで遊んで、${this.blackcount} vs ${this.whitecount}で${this.winner}！&url=https://poyo.me/reversi/torus/&hashtags=トーラスリバーシ`);
+        window.open(url, 'twitter');
+      } else {
+        let level_str = '';
+        switch (this.lowest_level) {
+          case 0: level_str = "Easy"; break;
+          case 1: level_str = "Normal"; break;
+          case 2: level_str = "Hard"; break;
+        }
+        let player_count = 0;
+        let com_count = 0;
+        let winlose = ''
+        if (this.mode == SingleBlack) {
+          player_count = this.blackcount;
+          com_count = this.whitecount;
+        } else {
+          player_count = this.whitecount;
+          com_count = this.blackcount;
+        }
+        if (player_count > com_count) {
+          winlose = '勝利しました！';
+        } else if (com_count > player_count) {
+          winlose = '敗北しました...';
+        } else {
+          winlose = '引き分けました。';
+        }
+        const url = encodeURI(`https://twitter.com/share?text=トーラスリバーシで難易度${level_str}のAIと戦い、${player_count} vs ${com_count}で${winlose}&url=https://poyo.me/reversi/torus/&hashtags=トーラスリバーシ`);
+        window.open(url, 'twitter');
+      }
+    }
+  },
+  watch: {
+    level: function(val) {
+      this.lowest_level = Math.min(this.lowest_level, val);
     }
   }
 })

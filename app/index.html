@@ -45,7 +45,7 @@
         <option v-bind:value="1">Normal</option>
         <option v-bind:value="2">Hard</option>
       </select>
-      <p v-if="gameover">ゲーム終了 {{ blackcount }} : {{ whitecount }} で {{ winner }} </p>
+      <p v-if="gameover">ゲーム終了 {{ blackcount }} : {{ whitecount }} で {{ winner }} <button v-on:click="share()">結果をシェア</button></p>
       <p v-else>次は{{ turnstring }}番です</p>
     </div>
     <hr>
