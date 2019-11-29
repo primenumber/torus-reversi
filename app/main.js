@@ -158,13 +158,16 @@ let vm = new Vue({
         }
         let player_count = 0;
         let com_count = 0;
-        let winlose = ''
+        let winlose = '';
+        let turn = '';
         if (this.mode == SingleBlack) {
           player_count = this.blackcount;
           com_count = this.whitecount;
+          turn = '先手';
         } else {
           player_count = this.whitecount;
           com_count = this.blackcount;
+          turn = '後手';
         }
         if (player_count > com_count) {
           winlose = '勝利しました！';
@@ -173,7 +176,7 @@ let vm = new Vue({
         } else {
           winlose = '引き分けました。';
         }
-        const url = encodeURI(`https://twitter.com/share?text=トーラスリバーシで難易度${level_str}のAIと戦い、${player_count} vs ${com_count}で${winlose}&url=https://poyo.me/reversi/torus/&hashtags=トーラスリバーシ`);
+        const url = encodeURI(`https://twitter.com/share?text=トーラスリバーシで難易度${level_str}のAIと${turn}で戦い、${player_count} vs ${com_count}で${winlose}&url=https://poyo.me/reversi/torus/&hashtags=トーラスリバーシ`);
         window.open(url, 'twitter');
       }
     }
