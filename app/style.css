@@ -1,6 +1,8 @@
 .circle {
+  position: absolute;
   border-radius: 50%;
-  margin: 0px auto;
+  top: 9px;
+  left: 9px;
   width: 30px;
   height: 30px;
 }
@@ -14,16 +16,23 @@
 }
 
 .prevpos {
-  width: 29px;
-  height: 29px;
+  position: absolute;
+  border-radius: 50%;
+  top: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
   border-width: 3px;
   border-style: dotted;
   border-color: red;
 }
 
 .candidate {
-  width: 29px;
-  height: 29px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
   border-width: 3px;
   border-style: dotted;
   border-color: yellow;
@@ -40,6 +49,7 @@
 }
 
 .square {
+  position: relative;
   width: 48px;
   height: 48px;
   border-width: 2px;
@@ -64,4 +74,12 @@
   color: white;
   text-align: center;
   padding: 20px 0px;
+}
+
+.flip-enter-active, .flip-leave-active {
+  transition: opacity .4s;
+}
+
+.flip-enter, .flip-leave-to {
+  opacity: 0;
 }

@@ -25,12 +25,12 @@
         <table border=1 class="board" v-for="index in 4">
           <tr v-for="(line,row) in matrix">
             <td v-for="(square,col) in line" class="square" v-on:click="put(row,col)">
-              <div v-if="row === prevrow && col === prevcol && matrix[row][col] === 1" class="circle black prevpos"></div>
-              <div v-else-if="matrix[row][col] === 1" class="circle black"></div>
-              <div v-else-if="row === prevrow && col === prevcol && matrix[row][col] === 2" class="circle white prevpos"></div>
-              <div v-else-if="matrix[row][col] === 2" class="circle white"></div>
-              <div v-else-if="ok[row][col]" class="circle candidate"></div>
-              <div v-else class="circle"></div>
+              <transition name="flip">
+                <div v-if="matrix[row][col] === 1" class="circle black" key="black"></div>
+                <div v-else-if="matrix[row][col] === 2" class="circle white" key="white"></div>
+              </transition>
+              <div v-if="row === prevrow && col === prevcol" class="prevpos"></div>
+              <div v-if="ok[row][col]" class="circle candidate"></div>
             </td>
           </tr>
         </table>
