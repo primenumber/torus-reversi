@@ -1,8 +1,26 @@
 importScripts('board.js');
 
+let eval_board = function(matrix, turn) {
+  if (isGameOver(matrix)) {
+    return score(matrix, turn);
+  } else {
+    const empty_num = count(matrix, Empty);
+    const player_num = count(matrix, turn);
+    const opponent_num = count(matrix, oppTurn(turn));
+    const evenodd = empty_num % 2;
+    let parity_penalty = 0;
+    if (evenodd == 0) { // even
+      parity_penalty = Komi / 2;
+    } else {
+      parity_penalty = -Komi / 2;
+    }
+    return player_num - opponent_num - parity_penalty;
+  }
+}
+
 let think_impl = function(matrix, turn, alpha, beta, passed, depth) {
   if (depth <= 0) {
-    return [score(matrix, turn), -1, -1];
+    return [eval_board(matrix, turn), -1, -1];
   }
   const opp = oppTurn(turn);
   let pass = true;
