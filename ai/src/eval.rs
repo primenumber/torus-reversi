@@ -17,21 +17,25 @@ impl Evaluator for SimpleEvaluator {
 pub struct ParityEvaluator;
 
 impl ParityEvaluator {
-    const PARITY_PENALTY: i16 = 1250;
+    const PARITY_PENALTY: i16 = 100 * KOMI as i16 + 50;
 }
 
 impl Evaluator for ParityEvaluator {
-    const EVAL_MAX: i16 = 100 * MAX_SCORE as i16 + Self::PARITY_PENALTY;
+    const EVAL_MAX: i16 = 100 * MAX_SCORE as i16;
     fn eval(&self, game: &Game) -> i16 {
+        if game.is_gameover() {
+            return (game.current_score() * 100) as i16;
+        }
         let empty_count = game.board.count(Square::Empty);
+        let player_count = game.board.count(Square::from(game.turn));
+        let opponent_count = game.board.count(Square::from(game.turn.opponent()));
         let parity_penalty = if (empty_count % 2) == 1 { // odd
             Self::PARITY_PENALTY
-        } else if empty_count > 0 { // even, not zero
+        } else { // even, not zero
             -Self::PARITY_PENALTY
-        } else { // zero
-            0
-        } as isize; // komidashi
-        (game.current_score() * 100 + parity_penalty) as i16
+        } as i16; // komidashi
+        let diff = player_count as i16 - opponent_count as i16;
+        diff * 200 + parity_penalty
     }
 }
 
