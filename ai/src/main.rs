@@ -13,7 +13,15 @@ fn play_to_end<T: Evaluator>(search: &Search<T>, game: &Game) -> isize {
     let mut current_game = game.clone();
     let mut passed = false;
     while !current_game.is_gameover() {
-        let play = search.search_root(&current_game, -T::EVAL_MAX, T::EVAL_MAX, passed, 4).0;
+        let empty_count = current_game.board.count(Square::Empty);
+        let depth = if empty_count > 14 {
+            4
+        } else if empty_count > 8 {
+            6
+        } else {
+            8
+        };
+        let play = search.search_root(&current_game, -T::EVAL_MAX, T::EVAL_MAX, passed, depth).0;
         assert!(play != Play::Invalid, "Invalid play");
         current_game = current_game.play(play);
         passed = play == Play::Pass;
