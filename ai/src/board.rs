@@ -1,5 +1,5 @@
 pub const MAT_SIZE: usize = 8;
-pub const KOMI: isize = 12; // 0.5-point omitted
+pub const KOMI: isize = 13; // 0.5-point omitted
 pub const MAX_SCORE: isize = 2 * ((MAT_SIZE * MAT_SIZE) as isize + KOMI) + 1;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
