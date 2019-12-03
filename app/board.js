@@ -1,7 +1,7 @@
 const Empty = 0;
 const Black = 1;
 const White = 2;
-const Komi = 12.5;
+const Komi = 13.5;
 
 let oppTurn = function(turn) {
   return 3 - turn;
