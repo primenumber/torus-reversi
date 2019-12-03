@@ -1,6 +1,7 @@
 const Empty = 0;
 const Black = 1;
 const White = 2;
+const Komi = 12.5;
 
 let oppTurn = function(turn) {
   return 3 - turn;
@@ -129,13 +130,20 @@ let count = function(matrix, turn) {
 }
 
 let score = function(matrix, turn) {
-  let turn_num = count(matrix, turn);
-  let opp_num = count(matrix, oppTurn(turn));
-  if (turn_num > opp_num) {
-    return 64 - 2*opp_num;
-  } else if (opp_num > turn_num) {
-    return -64 + 2*turn_num;
+  const black_num = count(matrix, Black);
+  const white_num = count(matrix, White); 
+  const diff = black_num - white_num + Komi;
+  let absolute_score = 0;
+  if (diff > 0) {
+    const new_black_num = 64 - white_num;
+    absolute_score = new_black_num - white_num + Komi;
   } else {
-    return 0;
+    const new_white_num = 64 - black_num;
+    absolute_score = black_num - new_white_num + Komi;
+  }
+  if (turn === Black) {
+    return absolute_score;
+  } else {
+    return -absolute_score;
   }
 }

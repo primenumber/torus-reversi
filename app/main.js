@@ -16,30 +16,38 @@ let vm = new Vue({
   },
   computed: {
     blackcount: function() {
-      let black_num = count(this.matrix, Black);
-      let white_num = count(this.matrix, White);
-      if (black_num > white_num) {
+      const black_num = count(this.matrix, Black);
+      const white_num = count(this.matrix, White);
+      const diff = black_num - white_num + Komi;
+      if (diff > 0) {
         return 64 - white_num;
       } else {
         return black_num;
       }
     },
     whitecount: function() {
-      let black_num = count(this.matrix, Black);
-      let white_num = count(this.matrix, White);
-      if (white_num > black_num) {
-        return 64 - black_num;
-      } else {
+      const black_num = count(this.matrix, Black);
+      const white_num = count(this.matrix, White);
+      const diff = black_num - white_num + Komi;
+      if (diff > 0) {
         return white_num;
+      } else {
+        return 64 - black_num;
       }
     },
     winner: function() {
-      if (this.blackcount > this.whitecount) {
-        return "黒の勝利";
-      } else if (this.whitecount > this.blackcount) {
-        return "白の勝利";
+      const diff = this.blackcount - this.whitecount + Komi;
+      if (diff > 0) {
+        return Black;
       } else {
-        return "引き分け";
+        return White;
+      }
+    },
+    winner_string: function() {
+      if (this.winner === Black) {
+        return "黒の勝利";
+      } else {
+        return "白の勝利";
       }
     },
     ok: function() {
@@ -159,24 +167,25 @@ let vm = new Vue({
         let player_count = 0;
         let com_count = 0;
         let winlose = '';
-        let turn = '';
+        let turn = 0;
+        let turn_string = '';
         if (this.mode == SingleBlack) {
           player_count = this.blackcount;
           com_count = this.whitecount;
-          turn = '先手';
+          turn = Black;
+          turn_string = '先手';
         } else {
           player_count = this.whitecount;
           com_count = this.blackcount;
-          turn = '後手';
+          turn = White;
+          turn_string = '後手';
         }
-        if (player_count > com_count) {
+        if (this.winner == turn) {
           winlose = '勝利しました！';
-        } else if (com_count > player_count) {
-          winlose = '敗北しました...';
         } else {
-          winlose = '引き分けました。';
+          winlose = '敗北しました...';
         }
-        const url = encodeURI(`https://twitter.com/share?text=トーラスリバーシで難易度${level_str}のAIと${turn}で戦い、${player_count} vs ${com_count}で${winlose}&url=https://poyo.me/reversi/torus/&hashtags=トーラスリバーシ`);
+        const url = encodeURI(`https://twitter.com/share?text=トーラスリバーシで難易度${level_str}のAIと${turn_string}で戦い、${player_count} vs ${com_count}(コミ${Komi}石)で${winlose}&url=https://poyo.me/reversi/torus/&hashtags=トーラスリバーシ`);
         window.open(url, 'twitter');
       }
     }
@@ -187,5 +196,3 @@ let vm = new Vue({
     }
   }
 })
-
-vm.singleMode(White);
