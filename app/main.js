@@ -12,7 +12,7 @@ let vm = new Vue({
     mode: SingleBlack,
     worker: new Worker('com.js'),
     level: 0,
-    lowest_level: 2,
+    lowest_level: 0,
   },
   computed: {
     blackcount: function() {
