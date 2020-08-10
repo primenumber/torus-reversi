@@ -93,6 +93,8 @@ let vm = new Vue({
         this.mode = SingleWhite;
       } else {
         this.mode = SingleBlack;
+        this.prevrow = -1;
+        this.prevcol = -1;
       }
       this.lowest_level = this.level;
     },
@@ -100,6 +102,8 @@ let vm = new Vue({
       this.matrix = newMatrix();
       this.turn = Black;
       this.mode = Double;
+      this.prevrow = -1;
+      this.prevcol = -1;
     },
     pass: function() {
       let flipped = movable(this.matrix, this.turn);
