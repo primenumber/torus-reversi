@@ -36,8 +36,8 @@
           </tr>
         </table>
         <p class="thinking" v-if="!playerturn">思考中…</p>
+        <p class="player-pass" v-if="playerpass">打てる場所がありません<br><button v-on:click="pass()">パス</button></p>
       </div>
-      <button v-on:click="pass()">パス</button>
       <button v-on:click="singleMode(1)">一人モード 黒番から</button>
       <button v-on:click="singleMode(2)">一人モード 白番から</button>
       <button v-on:click="doubleMode()">二人モード</button>

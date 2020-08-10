@@ -76,6 +76,17 @@
   padding: 20px 0px;
 }
 
+.player-pass {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  font-size: 200%;
+  background-color: rgba(0,0,0,.6);
+  color: white;
+  text-align: center;
+  padding: 20px 0px;
+}
+
 .flip-enter-active, .flip-leave-active {
   transition: opacity .4s;
 }

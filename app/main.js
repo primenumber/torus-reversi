@@ -79,6 +79,12 @@ let vm = new Vue({
         case SingleWhite: return this.turn == White;
         default: return false;
       }
+    },
+    playerpass: function() {
+      if (this.gameover) return false;
+      if (!this.playerturn) return false;
+      let flipped = movable(this.matrix, this.turn);
+      return flipped == 0;
     }
   },
   methods: {
