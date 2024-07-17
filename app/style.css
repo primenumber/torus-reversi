@@ -22,7 +22,7 @@
   left: 8px;
   width: 32px;
   height: 32px;
-  border-width: 3px;
+  border-width: 4px;
   border-style: dotted;
   border-color: red;
 }
@@ -33,7 +33,7 @@
   left: 8px;
   width: 32px;
   height: 32px;
-  border-width: 3px;
+  border-width: 4px;
   border-style: dotted;
   border-color: yellow;
 }
@@ -41,9 +41,6 @@
 .board {
   background-color: #009F7F;
   border-color: black;
-  border-style: solid;
-  border-width: 2px;
-  border-collapse: collapse;
   width: 400px;
   height: 400px;
 }
@@ -53,7 +50,7 @@
   width: 48px;
   height: 48px;
   border-style: solid;
-  border-width: 2px;
+  border-width: 4px;
   padding: 0;
 }
 
