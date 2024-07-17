@@ -39,7 +39,7 @@
 }
 
 .board {
-  background-color: green;
+  background-color: #009F7F;
   border-color: black;
   border-style: solid;
   border-width: 2px;
@@ -52,6 +52,7 @@
   position: relative;
   width: 48px;
   height: 48px;
+  border-style: solid;
   border-width: 2px;
   padding: 0;
 }
