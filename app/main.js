@@ -2,17 +2,19 @@ const SingleBlack = 0;
 const SingleWhite = 1;
 const Double = 2;
 
-let vm = new Vue({
+let app = Vue.createApp({
   el: "#game",
-  data: {
-    matrix: newMatrix(),
-    turn: Black,
-    prevrow: -1,
-    prevcol: -1,
-    mode: SingleBlack,
-    worker: new Worker('com.js'),
-    level: 0,
-    lowest_level: 0,
+  data() {
+    return {
+      matrix: newMatrix(),
+      turn: Black,
+      prevrow: -1,
+      prevcol: -1,
+      mode: SingleBlack,
+      worker: new Worker('com.js'),
+      level: 0,
+      lowest_level: 0,
+    }
   },
   computed: {
     blackcount: function() {
@@ -158,7 +160,7 @@ let vm = new Vue({
         this.prevcol = col;
       };
       this.worker.postMessage({
-        matrix: this.matrix,
+        matrix: Vue.toRaw(this.matrix),
         turn: this.turn,
         level: this.level
       });
@@ -206,3 +208,4 @@ let vm = new Vue({
     }
   }
 })
+app.mount('#game');
